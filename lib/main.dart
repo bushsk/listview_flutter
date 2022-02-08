@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show debugPaintSizeEnabled;
 
 void main() {
-  debugPaintSizeEnabled = false;
   runApp(MyApp());
 }
 
@@ -11,6 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: MyStatefulWidget(),
     );
   }
@@ -29,30 +28,37 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Scaffold Example'),
+        title: const Text('Flutter NavigationDrawer Example'),
       ),
       body: Center(
         child: Text('We have pressed the button $_count times.'),
       ),
+
+      //Adding bottom navigation bar
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Container(
           height: 50.0,
+          color: Colors.grey,
         ),
       ),
+
+      //floating button
       floatingActionButton: FloatingActionButton(
         onPressed: () => setState(() {
           _count++;
         }),
         tooltip: 'Increment Counter',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      //Adding Drawer
       drawer: Drawer(
         elevation: 20.0,
         child: Column(
           children: <Widget>[
-            UserAccountsDrawerHeader(
+            const UserAccountsDrawerHeader(
               accountName: Text("SIESGSST"),
               accountEmail: Text("siesgst@gmail.com"),
               currentAccountPicture: CircleAvatar(
@@ -61,23 +67,79 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             ListTile(
-              title: new Text("Inbox"),
-              leading: new Icon(Icons.mail),
+              title: const Text("Inbox"),
+              leading: const Icon(Icons.mail),
+              onTap: () {
+                Navigator.pop(context);
+                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Mailpage()),
+                );
+              },
             ),
-            Divider( height: 0.1,),
-            ListTile(
-              title: new Text("Primary"),
-              leading: new Icon(Icons.inbox),
+            const Divider(
+              height: 0.1,
             ),
             ListTile(
-              title: new Text("Social"),
+              title: const Text("Primary"),
+              leading: const Icon(Icons.inbox),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Primarypage()),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text("Social"),
               leading: new Icon(Icons.people),
             ),
             ListTile(
-              title: new Text("Promotions"),
+              title: const Text("Promotions"),
               leading: new Icon(Icons.local_offer),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class Mailpage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Mail Screen"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          color: Colors.blueGrey,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Mail Screen'),
+        ),
+      ),
+    );
+  }
+}
+class Primarypage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Primary Screen"),
+      ),
+      body: Center(
+        child: RaisedButton(
+          color: Colors.blueGrey,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Primary Screen'),
         ),
       ),
     );
